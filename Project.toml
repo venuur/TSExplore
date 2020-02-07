@@ -1,0 +1,13 @@
+name = "TSExplore"
+uuid = "02808318-4d2a-44d8-bfbf-4697bf4a76bc"
+authors = ["Carl Morris <carl.morris.world@outlook.com>"]
+version = "0.1.0"
+
+[compat]
+julia = "1"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]
