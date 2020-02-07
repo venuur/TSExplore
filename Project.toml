@@ -3,6 +3,9 @@ uuid = "02808318-4d2a-44d8-bfbf-4697bf4a76bc"
 authors = ["Carl Morris <carl.morris.world@outlook.com>"]
 version = "0.1.0"
 
+[deps]
+TimeModels = "69470c01-11c1-51f0-b04c-03fbc3a7dfa2"
+
 [compat]
 julia = "1"
 
