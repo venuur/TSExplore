@@ -48,12 +48,21 @@ ar1_eq_direct(ϕ, y, z) = ϕ*y + z
 # In state space notation.
 struct AR1Model
     ϕ
+    F
+    G
+
+    function AR1Model(ϕ)
+        F = reshape([ϕ], 1, 1)
+        G = ones(eltype(ϕ), 1, 1)
+        return new(ϕ, F, G)
+    end
 end
 
-obs_eq(m::AR1Model, x, z) = obs_eq(one(z), x, zero(z))
-state_eq(m::AR1Model, x, z) = state_eq(m.ϕ, x, z)
+state_eq(m::AR1Model, x, z) = state_eq(m.F, x, [z])
+obs_eq(m::AR1Model, x, z) = obs_eq(m.G, x, zeros(eltype(z), 1))
 
 ## Example 8.1.2 ARMA(1,1) process
+export ARMA11Model, arma11_eq_direct
 
 """
     y(t+1) = ϕYt + Zt + θZ(t-1)
@@ -67,6 +76,18 @@ arma11_eq_direct(ϕ, θ, y, zt, ztm1) = ϕ*y + z + θ*ztm1
 struct ARMA11Model
     ϕ  # AR param
     θ  # MA param
+    F  # state transition matrix
+    G  # observation transition matrix
+
+    function ARMA11Model(ϕ, θ)
+        F = [0 1; 0 ϕ]
+        G = [θ 1]
+        return new(ϕ, θ, F, G)
+    end
+end
+
+state_eq(m::ARMA11Model, x, z) = state_eq(m.F, x, [zero(first(x)), z])
+obs_eq(m::ARMA11Model, x, z) = obs_eq(m.G, x, zeros(eltype(x), 1))
 
 
 
